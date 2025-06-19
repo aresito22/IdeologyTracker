@@ -1,11 +1,9 @@
-import string
+import json
+import string 
+import sys
 
-ideologies = {
-    "Liberalism": ["freedom", "rights", "democracy", "market", "individual", "equality", "liberty", "diversity"],
-    "Socialism": ["workers", "redistribution", "equality", "public ownership", "state control", "collective", "social justice", "regulate"],
-    "Fascism": ["nation", "discipline", "order", "purity", "leader", "unity", "strength"],
-    "Communism": ["class struggle", "proletariat", "revolution", "state ownership", "abolish property", "equality of outcome", "means of production"]
-}
+with open("dictionary.json", "r") as file:
+    ideologies = json.load(file)
 
 print("Write in a phrase:")
 phrase = input()
@@ -19,12 +17,7 @@ for char in phrase:
 
 words = new_phrase.split()
 
-scores = {
-    "Liberalism": 0,
-    "Socialism": 0,
-    "Fascism": 0,
-    "Communism": 0,
-}
+scores = {ideology: 0 for ideology in ideologies}
 
 for word in words:
     for ideology in ideologies:
@@ -32,4 +25,15 @@ for word in words:
             scores[ideology] += 1
 
 best = max(scores, key=scores.get)
+print("")
 print(f"The best match for that phrase is {best}")
+
+print("")
+print("Do you want to see the full list of scores? Y/N")
+opt = input()
+
+if opt == "Y" or "y":
+    for i in scores:
+        print(f"Score for {(i)}: {scores[i]}")
+else:
+    sys.exit()
